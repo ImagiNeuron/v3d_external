@@ -338,6 +338,7 @@ template <class T> bool compute_cube_win3d_pca_eigVec(T ***img3d,
 	V3DLONG rx, V3DLONG ry, V3DLONG rz,
 	double &pc1, double &pc2, double &pc3,
 	double *vec1, double *vec2, double *vec3, 
+	double &xcm, double &ycm, double &zcm,  // Added center of mass parameters
 	bool b_disp_CoM_etc = true, //b_disp_CoM_etc is the display option for center of mass
 	bool b_normalize_score = false)
 {
@@ -382,6 +383,7 @@ template <class T> bool compute_cube_win3d_pca_eigVec(T ***img3d,
 	{
 		xm /= s; ym /= s; zm /= s;
 		mv = s / (double(ze - zb + 1)*(ye - yb + 1)*(xe - xb + 1));
+		xcm = xm; ycm = ym; zcm = zm;  // Store center of mass
 		if (b_disp_CoM_etc)
 			printf("center of mass is (xm, ym, zm) = %5.3f, %5.3f, %5.3f\n", xm, ym, zm);
 	}
@@ -466,6 +468,7 @@ template <class T> bool compute_sphere_win3d_pca_eigVec(T ***img3d, V3DLONG sx, 
 	V3DLONG rx, V3DLONG ry, V3DLONG rz,
 	double &pc1, double &pc2, double &pc3,
 	double *vec1, double *vec2, double *vec3,
+	double &xcm, double &ycm, double &zcm,  // Added center of mass parameters
 	bool b_disp_CoM_etc = true, //b_disp_CoM_etc is the display option for center of mass )
 	bool b_normalize_score = false)
 {
@@ -523,6 +526,7 @@ template <class T> bool compute_sphere_win3d_pca_eigVec(T ***img3d, V3DLONG sx, 
 	{
 		xm /= s; ym /= s; zm /= s;
 		mv = s / n;
+		xcm = xm; ycm = ym; zcm = zm;  // Store center of mass
 		if (b_disp_CoM_etc)
 			printf("center of mass is (xm, ym, zm) = %5.3f, %5.3f, %5.3f\n", xm, ym, zm);
 	}
@@ -635,15 +639,16 @@ template <class T> bool compute_win3d_pca_eigVec(T ***img3d, V3DLONG sx, V3DLONG
 	V3DLONG rx, V3DLONG ry, V3DLONG rz,
 	double &pc1, double &pc2, double &pc3, 
 	double *vec1, double *vec2, double *vec3, 
+	double &xcm, double &ycm, double &zcm,  // Added center of mass parameters
 	int wintype = 0,
 	bool b_disp_CoM_etc = true, 	//b_disp_CoM_etc is the display option for center of mass )
 	bool b_normalize_score = false) //if the score if normalized with respect to the window size
 {
 	if (wintype == 0){
-		return compute_cube_win3d_pca_eigVec(img3d, sx, sy, sz, x0, y0, z0, rx, ry, rz, pc1, pc2, pc3, vec1, vec2, vec3, b_disp_CoM_etc, b_normalize_score);
+		return compute_cube_win3d_pca_eigVec(img3d, sx, sy, sz, x0, y0, z0, rx, ry, rz, pc1, pc2, pc3, vec1, vec2, vec3, xcm, ycm, zcm, b_disp_CoM_etc, b_normalize_score);
 	}
 	else{ //wintype==1
-		return compute_sphere_win3d_pca_eigVec(img3d, sx, sy, sz, x0, y0, z0, rx, ry, rz, pc1, pc2, pc3, vec1, vec2, vec3, b_disp_CoM_etc, b_normalize_score);
+		return compute_sphere_win3d_pca_eigVec(img3d, sx, sy, sz, x0, y0, z0, rx, ry, rz, pc1, pc2, pc3, vec1, vec2, vec3, xcm, ycm, zcm, b_disp_CoM_etc, b_normalize_score);
 	}
 }
 
