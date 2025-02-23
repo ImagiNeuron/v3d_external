@@ -597,6 +597,7 @@ void ChannelTable::pressedClickHandler(int i, int j)
 				}
 
                 //curItem->setData(0, qVariantFromValue(qcolor));
+                curItem->setData(0, QVariant::fromValue(qcolor));
 			}
 		    end_batch();
 			if (act)  updatedContent(t);
@@ -616,6 +617,7 @@ void ChannelTable::doubleClickHandler(int i, int j)
 		QColor qcolor = QCOLORV(curItem->data(0));
 		if (! v3dr_getColorDialog( &qcolor))  return;
         //curItem->setData(0, qVariantFromValue(qcolor));
+		curItem->setData(0, QVariant::fromValue(qcolor));
 	}
 }
 
